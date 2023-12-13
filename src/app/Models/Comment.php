@@ -20,7 +20,7 @@ class Comment extends DB
         return new static();
     }
 
-    public function getItems(): array|null
+    public function getItems()
     {
         return parent::getAll();
     }

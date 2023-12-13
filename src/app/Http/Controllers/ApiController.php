@@ -16,7 +16,7 @@ class ApiController
     private int $code = 200;
     private string $message = 'ok';
 
-    public function composJson($resource = []): bool|string
+    public function composJson($resource = [])
     {
         $data = [
             'status' => $this->status,

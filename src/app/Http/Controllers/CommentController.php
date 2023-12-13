@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Cache\Cache;
+use App\Http\Cache\CommentCache;
 use App\Http\Requests\Request;
 use App\Models\Comment;
 
@@ -16,12 +18,12 @@ class CommentController extends ApiController
         return new static();
     }
 
-    public function list(): bool|string
+    public function list()
     {
         return $this->composJson(Comment::getInstance()->getItems());
     }
 
-    public function store(Request $request): bool|string
+    public function store(Request $request)
     {
         $fails = !$request->valid([
             'name',
@@ -32,6 +34,14 @@ class CommentController extends ApiController
             $this->setStatus(false);
             $this->setCode(400);
             $this->setMessage('Bad request');
+
+            return $this->composJson();
+        }
+
+        if (!$this->throttle()) {
+            $this->setStatus(false);
+            $this->setCode(429);
+            $this->setMessage('Too many request!');
 
             return $this->composJson();
         }
@@ -50,5 +60,17 @@ class CommentController extends ApiController
         }
 
         return $this->composJson();
+    }
+
+    public function throttle(): bool
+    {
+        $cache = Cache::getInstance();
+        $attempts = (int)$cache->cacheFetch(request()->ip());
+        if ($attempts < 5) {
+            $attempts++;
+            $cache->cacheStore(request()->ip(), $attempts, $cache->minute);
+            return true;
+        }
+        return false;
     }
 }

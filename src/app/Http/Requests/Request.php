@@ -12,11 +12,13 @@ class Request
     {
         $this->get = $_GET;
         $this->post = $_POST;
+        $this->server = $_SERVER;
         $this->requestData = array_merge($this->get, $this->post);
     }
 
     private array $get;
     private array $post;
+    private array $server;
     private array $requestData;
 
     public function query(string $name, $default = null)
@@ -29,6 +31,11 @@ class Request
         return $this->requestData[$name] ?? $default;
     }
 
+    public function all(): array
+    {
+        return $this->requestData;
+    }
+
     public function valid(array $rules): bool
     {
         foreach ($rules as $rule) {
@@ -38,5 +45,10 @@ class Request
         }
 
         return true;
+    }
+
+    public function ip(): string
+    {
+        return $this->server['HTTP_X_FORWARDED_FOR'];
     }
 }

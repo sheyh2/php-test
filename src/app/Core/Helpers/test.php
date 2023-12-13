@@ -18,3 +18,8 @@ if (!function_exists('request')) {
         return new Request();
     }
 }
+
+function session()
+{
+    session_start();
+}

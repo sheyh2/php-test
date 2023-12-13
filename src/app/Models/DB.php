@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Exception;
+use PDO;
 
 /**
  * Class DB.php
  * @package App\Models
  */
-class DB extends \PDO
+class DB extends PDO
 {
     public function __construct()
     {
@@ -31,6 +31,7 @@ class DB extends \PDO
             $items[] = [
                 'id' => $item['id'],
                 'name' => $item['name'],
+                'comment' => $item['comment'],
                 'created_at' => $item['created_at'],
             ];
         }
@@ -47,7 +48,11 @@ class DB extends \PDO
         $columns = $this->getColumns(array_keys($data));
         $values = $this->getValues(array_values($data));
 
-        $statement = $this->prepare(sprintf('INSERT INTO %s (%s) VALUE (%s)', $this->table, $columns, $values));
+//        $statement = $this->prepare(sprintf('INSERT INTO %s (%s) VALUE (%s)', $this->table, $columns, $values));
+        $statement = $this->prepare(sprintf('INSERT INTO %s (%s) VALUE (?, ?)', $this->table, $columns));
+
+        $statement->bindParam(1, array_values($data)[0]);
+        $statement->bindParam(2, array_values($data)[1]);
 
         return $statement->execute();
     }

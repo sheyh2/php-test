@@ -10,12 +10,12 @@ use App\Http\Controllers\CommentController;
  */
 class Comment
 {
-    public function list(): bool|string
+    public function list()
     {
         return CommentController::getInstance()->list();
     }
 
-    public function store(): bool|string
+    public function store()
     {
         return CommentController::getInstance()->store(request());
     }

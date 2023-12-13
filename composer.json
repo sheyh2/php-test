@@ -1,20 +1,22 @@
 {
-    "name": "abdurakhmonabdusharipov/tmp",
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/app/"
-        },
-        "files": [
-            "src/app/Core/Helpers/test.php"
-        ]
+  "name": "abdurakhmonabdusharipov/tmp",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/app/"
     },
-    "authors": [
-        {
-            "name": "sheyh2",
-            "email": "abdusharipov.abdurakhmon2000@mail.ru"
-        }
-    ],
-    "require": {
-        "php": "^7.3|^8.0"
+    "files": [
+      "src/app/Core/Helpers/test.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "sheyh2",
+      "email": "abdusharipov.abdurakhmon2000@mail.ru"
     }
+  ],
+  "require": {
+    "php": "^7.3|^8.0",
+    "ext-pdo": "*",
+    "ext-apcu": "*"
+  }
 }
